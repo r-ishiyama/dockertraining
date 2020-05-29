@@ -1,0 +1,9 @@
+version: '3'
+services:
+
+  frtraining-1:
+    build: ./playframework
+    image: frtraining-1
+    container_name: frtraining-1
+    ports:
+      - 8080:9000
