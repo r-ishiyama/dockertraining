@@ -1,0 +1,86 @@
+@import play.mvc.Http.Request
+@import java.util.Date
+@import models.find.Receipt;
+@(items: List[tables.T_User], form: Form[Receipt])
+
+@views.html.main("一覧") {
+<div class="container">
+  <div class="row">
+    <div class="page-header">
+    @helper.form(action = routes.Application.index) {
+      <div class="form-inline">
+        <div class="input-group col-sm-4">
+          <input type="text" class="form-control" placeholder="名前" name="input" value="@form("input").value">
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-default">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            検索
+            </button>
+          </span>
+        </div>
+        <a class="btn btn-primary pull-right" href="@routes.UserController.init">
+          <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            新規作成
+        </a>
+      </div>
+    }
+    </div>
+
+    @for(item <- items) {
+    <div class="bbs-art">
+      <h3>@item.id @item.name</h3>
+      <div class="bbs-message">@item.food</div>
+      <div class="bbs-status">
+        <span class="bbs-gr">@(item.schoolYear)年</span>
+        <span class="bbs-cr">作成日時 @("%tY/%<tm/%<td %<tH:%<tM" format item.createdAt)</span>
+        <span class="bbs-up">更新日時 @("%tY/%<tm/%<td %<tH:%<tM" format item.updatedAt)</span>
+        <span class="bbs"></span>
+        <a class="btn btn-success" href="@routes.UserController.edit(item.id)">編集</a>
+      </div>
+    </div>
+    }
+
+    <a class="btn btn-primary pull-right" href="@routes.UserController.init">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        新規作成
+    </a>
+
+    <div>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>名前</th>
+            <th>学年</th>
+            <th>身長</th>
+            <th>誕生日</th>
+            <th>好きな食べ物</th>
+            <th>作成日時</th>
+            <th>更新日時</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          @for(item <- items) {
+          <tr>
+            <td>@item.id</td>
+            <td>@item.name</td>
+            <td>@item.schoolYear</td>
+            <td>@item.height</td>
+            <td>@("%tY/%<tm/%<td" format item.birthDay)</td>
+            <td>@item.food</td>
+            <td>@("%tY/%<tm/%<td %<tH:%<tM" format item.createdAt)</td>
+            <td>@("%tY/%<tm/%<td %<tH:%<tM" format item.updatedAt)</td>
+            <td>
+              <a class="btn btn-success" href="@routes.UserController.edit(item.id)">編集</a>
+            </td>
+          </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+}
